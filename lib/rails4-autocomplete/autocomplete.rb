@@ -47,6 +47,7 @@ module Rails4Autocomplete
           method = options[:column_name] if options.has_key?(:column_name)
 
           term = params[:term]
+          options[:scopes] = [params[:scope]] #monkeypatch for specific use case
 
           if term && !term.blank?
             #allow specifying fully qualified class name for model object
