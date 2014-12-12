@@ -22,8 +22,8 @@ module Rails4Autocomplete
 
         unless scopes.empty?
           scopes.each do |scope| 
-            if scope.match(/.*\((\d+)\)/)
-              items = items.send(scope, $1)
+            if scope.match(/(.*)\((\d+)\)/)
+              items = items.send($1, $2)
             else
               items = items.send(scope)
             end
