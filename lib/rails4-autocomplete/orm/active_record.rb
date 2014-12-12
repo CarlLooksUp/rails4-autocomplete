@@ -20,7 +20,15 @@ module Rails4Autocomplete
 
         items = model.all
 
-        scopes.each { |scope| items = items.send(scope) } unless scopes.empty?
+        unless scopes.empty?
+          scopes.each do |scope| 
+            if scope.match(/.*\((\d+)\)/)
+              items = items.send(scope, $1)
+            else
+              items = items.send(scope)
+            end
+          end
+        end
 
         items = items.select(get_autocomplete_select_clause(model, method, options)) unless options[:full_model]
         items = items.where(get_autocomplete_where_clause(model, term, method, options)).
